@@ -89,20 +89,22 @@ export const getAlovaInstance = <S, E>(
     localCache,
     beforeRequestExpect,
     responseExpect,
-    resErrorExpect
+    resErrorExpect,
+    initialOptions
   }: {
     endWithSlash?: boolean;
     localCache?: GlobalLocalCacheConfig;
     beforeRequestExpect?: (methodInstance: FetchMethod) => void;
     responseExpect?: (response: Response, method: FetchMethod) => void;
     resErrorExpect?: (err: Error, method: FetchMethod) => void;
+    initialOptions?: RequestInit;
   } = {}
 ) => {
   const alovaInst = createAlova({
     baseURL: 'http://localhost:3000' + (endWithSlash ? '/' : ''),
     timeout: 3000,
     statesHook: statesHook,
-    requestAdapter: GlobalFetch(),
+    requestAdapter: GlobalFetch(initialOptions),
     beforeRequest(config) {
       beforeRequestExpect && beforeRequestExpect(config);
       return config;

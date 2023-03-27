@@ -14,7 +14,7 @@ import {
 } from '../utils/variables';
 
 const isBodyData = (data: any): data is BodyInit => isString(data) || isSpecialRequestBody(data);
-export default function GlobalFetch() {
+export default function GlobalFetch(initialOptions: FetchRequestInit = {}) {
   return function (elements: RequestElements, method: Method<any, any, any, any, FetchRequestInit, Response, Headers>) {
     // 设置了中断时间，则在指定时间后中断请求
     const adapterConfig = method.config;
@@ -31,6 +31,7 @@ export default function GlobalFetch() {
 
     const data = elements.data;
     const fetchPromise = fetch(elements.url, {
+      ...initialOptions,
       ...adapterConfig,
       method: elements.type,
       signal: ctrl.signal,

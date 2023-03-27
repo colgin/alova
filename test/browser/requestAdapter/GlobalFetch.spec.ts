@@ -33,4 +33,20 @@ describe('request adapter GlobalFetch', function () {
       }
     });
   });
+
+  test.only('should use initial options', async () => {
+    const alova = getAlovaInstance(VueHook, {
+      responseExpect: r => r.json(),
+      initialOptions: {
+        headers: {
+          token: '123'
+        }
+      }
+    });
+    const Get = alova.Get('/unit-test', {
+      transformData: ({ data }: Result) => data
+    });
+    const result = await Get.send();
+    console.log(result);
+  });
 });
